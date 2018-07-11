@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+</head>
+
+<body>
+    <h1>This is a Survey</h1>
+
+    <div class="row">
+        <form action="/api/friends/" method="post" class="col s12">
+            <div class="row">
+                <div class="input-field col s6">
+                    <label for="name">Name</label>
+                    <input name="name" placeholder="Placeholder" id="name" type="text" class="validate">
+
+                </div>
+            </div>
+
+            <p>
+                Question 1
+                <label>
+                    <input class="with-gap" name="q1o1" type="radio" />
+                    <span>Option 1</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q1o2" type="radio" />
+                    <span>Option 2</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q1o3" type="radio" />
+                    <span>Option 3</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q1o4" type="radio" />
+                    <span>Option 4</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q1o5" type="radio" />
+                    <span>Option 5</span>
+                </label>
+            </p>
+
+            <p>
+                Question 2
+                <label>
+                    <input class="with-gap" name="q2o1" type="radio" />
+                    <span>Option 1</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q2o2" type="radio" />
+                    <span>Option 2</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q2o3" type="radio" />
+                    <span>Option 3</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q2o4" type="radio" />
+                    <span>Option 4</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q2o5" type="radio" />
+                    <span>Option 5</span>
+                </label>
+            </p>
+
+            <p>
+                Question 3
+                <label>
+                    <input class="with-gap" name="q3o1" type="radio" />
+                    <span>Option 1</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q3o2" type="radio" />
+                    <span>Option 2</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q3o3" type="radio" />
+                    <span>Option 3</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q3o4" type="radio" />
+                    <span>Option 4</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="q3o5" type="radio" />
+                    <span>Option 5</span>
+                </label>
+            </p>
+
+            <div>
+                <input id="but" type="submit">
+            </div>
+        </form>
+
+        <div id="modal1" class="modal">
+                <div class="modal-content">
+                  <h4>Your Match:</h4>
+                  <p class="match-name">A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                  <a class="modal-close waves-effect waves-green btn-flat">Thank you</a>
+                </div>
+              </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+
+    <script>
+        
+        $("#but").on("click", function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '/api/friends',
+                type: 'post',
+                data: $('form').serialize(),
+                success: function () {
+                    alert("worked");
+                    $.get('/api/friends', function (friends) {
+
+                        function findMatch() {
+                            var newUserPosition = friends.length - 1
+                            var totalDifference = 0;
+                            var smallestDifference = 100;
+                            var match = [];
+                            for (var i = 0; i < friends.length - 1; i++) {
+                                for (var j = 0; j < friends[i].scores.length; j++) {
+                                    totalDifference += Math.abs(parseInt(friends[i].scores[j]) - parseInt(friends[newUserPosition].scores[j]))
+                                }
+                                if (totalDifference <= smallestDifference) {
+                                    smallestDifference = totalDifference;
+                                    match.push(friends[i].name);
+                                }
+                            }
+
+                            return match;
+                        }
+                        $(".modal-close").on("click",function(){
+                            $(".modal").css("display","none");
+                        })
+                        
+                        $(".match-name").text("Your Match is: "+findMatch());
+                        $(".modal").css("display","block");
+
+                    })
+                }
+
+            })
+        });
+
+
+    </script>
+
+</body>
+
+</html>
