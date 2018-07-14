@@ -103,6 +103,7 @@
                 <div class="modal-content">
                   <h4>Your Match:</h4>
                   <p class="match-name">A bunch of text</p>
+                  <img id="pic">
                 </div>
                 <div class="modal-footer">
                   <a class="modal-close waves-effect waves-green btn-flat">Thank you</a>
@@ -137,7 +138,7 @@
                                 }
                                 if (totalDifference <= smallestDifference) {
                                     smallestDifference = totalDifference;
-                                    match.push(friends[i].name);
+                                    match.push([friends[i].name,friends[i].picture]);
                                 }
                             }
 
@@ -146,9 +147,11 @@
                         $(".modal-close").on("click",function(){
                             $(".modal").css("display","none");
                         })
-                        
-                        $(".match-name").text("Your Match is: "+findMatch());
+                        var arr = findMatch();
+                        $(".match-name").text("Your Match is: "+arr[0][0]);
+                        $("#pic").attr("src",arr[0][1]);
                         $(".modal").css("display","block");
+
 
                     })
                 }

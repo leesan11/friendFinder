@@ -7,7 +7,8 @@ var friends = [
             1,
             2,
             3
-        ]
+        ],
+        picture:"https://www.ienglishstatus.com/wp-content/uploads/2018/04/Sad-Profile-Pic-for-Whatsapp.png",
     },
     {
         name:"Allison",
@@ -15,7 +16,8 @@ var friends = [
             2,
             5,
             5
-        ]
+        ],
+        picture:"https://www.ienglishstatus.com/wp-content/uploads/2018/04/Sad-Profile-Pic-for-Whatsapp.png"
     }
 ];
 
